@@ -34,23 +34,23 @@ def generar_caso_de_uso_detectar_outliers_produccion():
     # Calcular outliers esperados
     df_expected = df.copy()
     
-    def marcar_outliers(grupo):
+    def marcar_outliers(series):
         if metodo == 'iqr':
-            Q1 = grupo['produccion'].quantile(0.25)
-            Q3 = grupo['produccion'].quantile(0.75)
+            Q1 = series.quantile(0.25)
+            Q3 = series.quantile(0.75)
             IQR = Q3 - Q1
             lower = Q1 - 1.5 * IQR
             upper = Q3 + 1.5 * IQR
-            return (grupo['produccion'] < lower) | (grupo['produccion'] > upper)
+            return (series < lower) | (series > upper)
         else:  # zscore
-            media = grupo['produccion'].mean()
-            std = grupo['produccion'].std()
+            media = series.mean()
+            std = series.std()
             if std == 0:
-                return np.zeros(len(grupo), dtype=bool)
-            z = (grupo['produccion'] - media) / std
+                return pd.Series(False, index=series.index)
+            z = (series - media) / std
             return np.abs(z) > 3
-    
-    df_expected['outlier'] = df_expected.groupby('maquina_id').apply(marcar_outliers).reset_index(level=0, drop=True)
+
+    df_expected['outlier'] = df_expected.groupby('maquina_id')['produccion'].transform(marcar_outliers)
     
     input_data = {
         'df': df,
@@ -61,3 +61,12 @@ def generar_caso_de_uso_detectar_outliers_produccion():
     output_expected = df_expected
     
     return input_data, output_expected
+
+if __name__ == "__main__":
+    entrada, salida_esperada = generar_caso_de_uso_detectar_outliers_produccion()
+    print("=== INPUT (primeras filas del DataFrame) ===")
+    print(entrada['df'].head())
+    print(f"\ncolumna: {entrada['columna']}")
+    print(f"metodo: {entrada['metodo']}")
+    print("\n=== OUTPUT (DataFrame con columna 'outlier') ===")
+    print(salida_esperada.head())

@@ -47,3 +47,20 @@ def generar_caso_de_uso_pipeline_pca_logistico():
     }
     
     return input_data, output_expected
+
+if __name__ == "__main__":
+    entrada, salida_esperada = generar_caso_de_uso_pipeline_pca_logistico()
+    print("=== INPUT ===")
+    print(f"X shape: {entrada['X'].shape}")
+    print(f"y shape: {entrada['y'].shape}")
+    print(f"n_componentes (solicitado): {entrada['n_componentes']}")
+    
+    n_components_real = salida_esperada['pipeline'].named_steps['pca'].n_components_
+    print(f"n_componentes real (retenidos): {n_components_real}")
+    
+    print("\n=== OUTPUT ESPERADO ===")
+    print(f"accuracy: {salida_esperada['accuracy']}")
+    evr = salida_esperada['explained_variance_ratio']
+    print(f"explained_variance_ratio: {evr}")
+    print(f"Suma de varianzas: {sum(evr):.6f}")
+    print("pipeline entrenado: OK")

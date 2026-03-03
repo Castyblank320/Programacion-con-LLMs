@@ -60,3 +60,10 @@ def generar_caso_de_uso_analizar_cohorte_compras():
     }
     
     return input_data, output_expected
+
+if __name__ == "__main__":
+    entrada, salida = generar_caso_de_uso_analizar_cohorte_compras()
+    print("=== INPUT (primeras filas del DataFrame) ===")
+    print(entrada['df'].head())
+    print("\n=== OUTPUT (tabla de retención) ===")
+    print(salida)

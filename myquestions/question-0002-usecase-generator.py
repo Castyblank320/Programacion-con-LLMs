@@ -44,3 +44,15 @@ def generar_caso_de_uso_optimizar_random_forest():
     }
     
     return input_data, output_expected
+
+if __name__ == "__main__":
+    entrada, salida_esperada = generar_caso_de_uso_optimizar_random_forest()
+    print("=== INPUT ===")
+    print(f"X shape: {entrada['X'].shape}")
+    print(f"y shape: {entrada['y'].shape}")
+    print(f"param_grid: {entrada['param_grid']}")
+    print(f"cv: {entrada['cv']}")
+    print("\n=== OUTPUT ESPERADO ===")
+    print(f"best_params: {salida_esperada['best_params']}")
+    print(f"best_score: {salida_esperada['best_score']}")
+    print(f"best_estimator: {salida_esperada['best_estimator']}")
