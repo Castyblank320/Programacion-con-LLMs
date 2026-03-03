@@ -1,0 +1,20 @@
+El Problema:
+En una planta de producción, se monitorea la cantidad de unidades producidas por cada máquina a lo largo del tiempo. Para detectar fallos, es necesario identificar valores atípicos (outliers) en la producción de cada máquina.
+
+Tu Misión:
+Escribe una función llamada `detectar_outliers_produccion(df, columna, metodo='iqr')` que realice lo siguiente:
+
+1. Reciba un DataFrame `df` con al menos las columnas 'maquina_id', 'fecha' y la columna de producción especificada en `columna`.
+2. Para cada máquina por separado, detecte outliers en la columna de producción usando el método indicado:
+   - Si `metodo == 'iqr'`: outlier si el valor está por debajo de Q1 - 1.5*IQR o por encima de Q3 + 1.5*IQR, donde Q1 y Q3 son el percentil 25 y 75 respectivamente.
+   - Si `metodo == 'zscore'`: outlier si el valor absoluto del z-score ( (x - media) / desviación estándar ) es mayor que 3.
+3. Cree una nueva columna booleana llamada 'outlier' que indique True si el valor es outlier, False en caso contrario.
+4. Devuelva el DataFrame original con la columna 'outlier' añadida.
+
+Requisitos:
+- Librerías permitidas: pandas, numpy.
+- No utilice bucles explícitos; utilice `groupby` y `transform` para aplicar las condiciones por grupo.
+- Mantenga el orden original de las filas.
+
+Retorno:
+- Un pandas DataFrame con la columna adicional 'outlier'.

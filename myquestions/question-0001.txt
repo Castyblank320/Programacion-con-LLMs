@@ -1,0 +1,20 @@
+El Problema:
+Eres el analista de datos de una tienda online. Te han proporcionado un DataFrame con el historial de compras de los clientes. Necesitas calcular la retención de clientes por cohorte mensual para evaluar la efectividad de las campañas de marketing.
+
+Tu Misión:
+Escribe una función llamada `analizar_cohorte_compras(df, fecha_col, cliente_col, venta_col)` que realice lo siguiente:
+
+1. Convierta la columna de fecha (`fecha_col`) a tipo datetime y extraiga el año-mes (por ejemplo, '2023-01') en una nueva columna llamada 'mes_compra'.
+2. Para cada cliente (identificado por `cliente_col`), determine el mes de su primera compra (cohorte).
+3. Cree una tabla donde las filas sean los meses de cohorte, y las columnas sean los meses transcurridos desde la primera compra (mes 0, mes 1, mes 2, ...). Los valores deben ser el número de clientes únicos de esa cohorte que realizaron una compra en cada mes posterior.
+4. Convierta estos conteos en tasas de retención: divida cada celda por el número total de clientes en la cohorte (el valor del mes 0).
+5. Devuelva un DataFrame con las tasas de retención, donde los nombres de las columnas sean 'mes_0', 'mes_1', 'mes_2', ... (como enteros) y el índice sea los meses de cohorte (como strings 'YYYY-MM').
+
+Requisitos:
+- Librerías permitidas: pandas, numpy.
+- No utilice bucles explícitos; utilice operaciones vectorizadas y groupby.
+- Asegúrese de que el índice y las columnas tengan nombres apropiados.
+- Si no hay datos para algún mes, el valor debe ser NaN (no cero).
+
+Retorno:
+- Un pandas DataFrame con las tasas de retención.

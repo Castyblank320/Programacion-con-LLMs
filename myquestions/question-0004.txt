@@ -1,0 +1,25 @@
+El Problema:
+Trabajas con un dataset de alta dimensionalidad y deseas reducir el número de variables antes de entrenar un modelo de clasificación. Has decidido utilizar PCA seguido de una regresión logística.
+
+Tu Misión:
+Escribe una función llamada `pipeline_pca_logistico(X, y, n_componentes=0.95)` que realice lo siguiente:
+
+1. Construya un pipeline de sklearn que incluya:
+   - `StandardScaler` para estandarizar las características.
+   - `PCA` con el parámetro `n_components` (que puede ser un entero o un float entre 0 y 1 indicando la varianza a explicar).
+   - `LogisticRegression` con `random_state=42`.
+2. Entrene el pipeline con todos los datos (X, y).
+3. Calcule la precisión (accuracy) del pipeline sobre los mismos datos de entrenamiento.
+4. Obtenga el vector de varianza explicada acumulada de PCA (`pca.explained_variance_ratio_`).
+5. Devuelva un diccionario con las siguientes claves:
+   - 'pipeline': el objeto pipeline entrenado.
+   - 'accuracy': float con la precisión en entrenamiento.
+   - 'explained_variance_ratio': lista de floats con la proporción de varianza explicada por cada componente.
+
+Requisitos:
+- Librerías permitidas: numpy, sklearn.
+- Fije `random_state=42` en la regresión logística para reproducibilidad.
+- Asegúrese de que el pipeline esté correctamente construido.
+
+Retorno:
+- Un diccionario con las claves especificadas.

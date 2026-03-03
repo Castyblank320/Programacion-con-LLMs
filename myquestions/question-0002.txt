@@ -1,0 +1,21 @@
+El Problema:
+Estás construyendo un modelo de clasificación para predecir si un cliente comprará un producto. Has decidido usar un Random Forest, pero necesitas encontrar los mejores hiperparámetros para maximizar el rendimiento.
+
+Tu Misión:
+Escribe una función llamada `optimizar_random_forest(X, y, param_grid, cv=5)` que realice lo siguiente:
+
+1. Utilice `GridSearchCV` de `sklearn.model_selection` para buscar la mejor combinación de hiperparámetros para un `RandomForestClassifier` (con `random_state=42`).
+2. La búsqueda debe realizarse sobre la cuadrícula proporcionada en `param_grid`, utilizando validación cruzada con `cv` particiones.
+3. La métrica de evaluación será la precisión ('accuracy').
+4. La función debe devolver un diccionario con las siguientes claves:
+   - 'best_params': diccionario con los mejores hiperparámetros encontrados.
+   - 'best_score': float con la media del score de validación cruzada para el mejor modelo.
+   - 'best_estimator': el objeto `RandomForestClassifier` entrenado con los mejores parámetros sobre todo el conjunto de datos (X, y).
+
+Requisitos:
+- Librerías permitidas: numpy, sklearn.
+- Asegúrese de fijar `random_state=42` en el clasificador para reproducibilidad.
+- El `GridSearchCV` debe ser instanciado con `return_train_score=False` y `refit=True` (por defecto).
+
+Retorno:
+- Un diccionario con las claves especificadas.
