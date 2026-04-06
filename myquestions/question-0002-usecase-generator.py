@@ -17,10 +17,11 @@ def generar_caso_de_uso_optimizar_random_forest():
                                n_informative=n_informative, n_redundant=0,
                                random_state=42)
     
-    # Generar param_grid aleatorio
+    # Generar param_grid aleatorio, asegurando que cada valor sea una lista
+    max_depth_options = [[None], [3,5,7], [5,10]]
     param_grid = {
         'n_estimators': random.choice([[50, 100], [100, 200], [50, 150]]),
-        'max_depth': random.choice([None, [3,5,7], [5,10]]),
+        'max_depth': random.choice(max_depth_options),
         'min_samples_split': random.choice([[2,5], [2,3,4]])
     }
     cv = random.randint(3, 5)
