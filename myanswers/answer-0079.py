@@ -6,16 +6,35 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
 from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 
 def detectar_clics_fraudulentos(df, target_col, n_features):
     """
     Selecciona características y entrena un modelo Naive Bayes para detección de fraude.
+    
+    Parámetros:
+    df : pd.DataFrame
+        DataFrame con características y columna objetivo.
+    target_col : str
+        Nombre de la columna objetivo.
+    n_features : int
+        Número de características a seleccionar con RFE.
+    
+    Retorna:
+    float
+        Precisión balanceada promedio (cross-validation).
     """
-    # 1. Separar características (X) y objetivo (y)
+    # 1. Separar X e y
     X = df.drop(columns=[target_col])
     y = df[target_col]
-
-    # 2. Crear pipeline con los pasos requeridos
+    
+    # 2. Imputar valores faltantes (por si acaso) con la media
+    #    Esto no debería ser necesario si el generador no genera NaN,
+    #    pero lo incluimos por robustez.
+    imputer = SimpleImputer(strategy='mean')
+    X_imputed = imputer.fit_transform(X)
+    
+    # 3. Crear pipeline
     pipeline = Pipeline([
         ('scaler', MaxAbsScaler()),
         ('selector', RFE(
@@ -24,16 +43,16 @@ def detectar_clics_fraudulentos(df, target_col, n_features):
         )),
         ('modelo', GaussianNB())
     ])
-
-    # 3. Configurar validación cruzada repetida y estratificada
+    
+    # 4. Validación cruzada repetida estratificada
     rkf = RepeatedStratifiedKFold(n_splits=5, n_repeats=2, random_state=42)
-
-    # 4. Calcular puntuaciones de balanced_accuracy
+    
+    # 5. Calcular balanced_accuracy
     scores = cross_val_score(
-        pipeline, X, y,
+        pipeline, X_imputed, y,
         cv=rkf,
         scoring='balanced_accuracy'
     )
-
-    # 5. Retornar el promedio de las puntuaciones
+    
+    # 6. Retornar el promedio
     return scores.mean()
