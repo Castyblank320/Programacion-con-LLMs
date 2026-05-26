@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.impute import SimpleImputer  # Necesario para el fix
 
 def optimization(df, target_col):
     """
@@ -11,9 +12,15 @@ def optimization(df, target_col):
     X = df.drop(columns=[target_col])
     y = df[target_col]
 
-    # 2. Escalar las características con StandardScaler
+    # --- FIX: Imputar los valores NaN en X ---
+    # Se reemplazan los NaN con la media de cada columna
+    imputer = SimpleImputer(strategy='mean')
+    X_imputed = imputer.fit_transform(X)
+    # ----------------------------------------
+
+    # 2. Escalar las características imputadas con StandardScaler
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    X_scaled = scaler.fit_transform(X_imputed)
 
     # 3. Calcular PCA para determinar el número óptimo de componentes
     pca_full = PCA()
